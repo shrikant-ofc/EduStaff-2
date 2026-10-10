@@ -133,10 +133,11 @@ function renderSupabaseBadge(status) {
     badge.style.cssText = "position:fixed;bottom:16px;left:16px;z-index:9999;font-family:system-ui,-apple-system,sans-serif;font-size:12px;background:#0f172a;color:#f8fafc;padding:6px 12px;border-radius:20px;border:1px solid #334155;display:flex;align-items:center;gap:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);cursor:pointer;";
 
     if (status.connected && status.tablesReady) {
-        badge.innerHTML = `<span style="width:8px;height:8px;border-radius:50%;background:#10b981;display:inline-block;"></span> <span>Supabase: Active</span>`;
-        badge.title = "Connected to Supabase project pjecoywhpmbuuyrhpdwa (Tables synchronized)";
+        const isSb = status.mode === 'supabase';
+        badge.innerHTML = `<span style="width:8px;height:8px;border-radius:50%;background:#10b981;display:inline-block;"></span> <span>${isSb ? 'Supabase: Active' : 'EduStaff DB: Active'}</span>`;
+        badge.title = isSb ? `Connected to Supabase (${status.supabaseUrl})` : "EduStaff In-Memory Database & Local Storage Active";
     } else if (status.connected) {
-        badge.innerHTML = `<span style="width:8px;height:8px;border-radius:50%;background:#f59e0b;display:inline-block;"></span> <span>Supabase: Setup SQL Needed</span>`;
+        badge.innerHTML = `<span style="width:8px;height:8px;border-radius:50%;background:#f59e0b;display:inline-block;"></span> <span>Database: Setup Needed</span>`;
         badge.title = "Connected to Supabase! Click to view SQL schema for table setup.";
         badge.onclick = showSqlSetupModal;
     } else {
